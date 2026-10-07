@@ -1,0 +1,18 @@
+<svg width="200" height="240" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .android-green { fill: #A4C639; }
+    .white-eye { fill: #FFFFFF; }
+  </style>
+  <g>
+    <path class="android-green" d="M50,80 A50,50 0 0 1 150,80 Z" />
+    <line x1="72" y1="45" x2="55" y2="18" stroke="#A4C639" stroke-width="5" stroke-linecap="round" />
+    <line x1="128" y1="45" x2="145" y2="18" stroke="#A4C639" stroke-width="5" stroke-linecap="round" />
+    <circle class="white-eye" cx="78" cy="55" r="5" />
+    <circle class="white-eye" cx="122" cy="55" r="5" />
+  </g>
+  <path class="android-green" d="M50,85 H150 V160 A12,12 0 0 1 138,172 H62 A12,12 0 0 1 50,160 Z" />
+  <rect class="android-green" x="24" y="85" width="20" height="75" rx="10" ry="10" />
+  <rect class="android-green" x="156" y="85" width="20" height="75" rx="10" ry="10" />
+  <rect class="android-green" x="70" y="165" width="20" height="35" rx="10" ry="10" />
+  <rect class="android-green" x="110" y="165" width="20" height="35" rx="10" ry="10" />
+</svg>

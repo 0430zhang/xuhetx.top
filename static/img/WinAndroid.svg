@@ -1,0 +1,29 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  
+  <!-- 1. 底层：Windows (放大并居左上) -->
+  <g transform="translate(10, 10) scale(1.4)">
+    <polygon fill="#0078D7" points="0,13 47,6 47,47 0,47" />
+    <polygon fill="#0078D7" points="0,53 47,53 47,94 0,87" />
+    <polygon fill="#0078D7" points="53,5 100,0 100,47 53,47" />
+    <polygon fill="#0078D7" points="53,53 100,53 100,100 53,95" />
+  </g>
+
+  <!-- 2. 上层：Android (放大，叠加，加白色描边防粘连) -->
+  <g transform="translate(75, 60) scale(0.65)">
+    <!-- 描边层(用来做遮挡效果) -->
+    <g stroke="white" stroke-width="12" stroke-linejoin="round">
+      <path fill="#A4C639" d="M50,80 A50,50 0 0 1 150,80 Z" />
+      <path fill="#A4C639" d="M50,85 H150 V160 A12,12 0 0 1 138,172 H62 A12,12 0 0 1 50,160 Z" />
+      <rect fill="#A4C639" x="24" y="85" width="20" height="75" rx="10" ry="10" />
+      <rect fill="#A4C639" x="156" y="85" width="20" height="75" rx="10" ry="10" />
+      <rect fill="#A4C639" x="70" y="165" width="20" height="35" rx="10" ry="10" />
+      <rect fill="#A4C639" x="110" y="165" width="20" height="35" rx="10" ry="10" />
+      <!-- 天线 -->
+      <line x1="72" y1="45" x2="55" y2="18" stroke="#A4C639" stroke-width="5" stroke-linecap="round" />
+      <line x1="128" y1="45" x2="145" y2="18" stroke="#A4C639" stroke-width="5" stroke-linecap="round" />
+    </g>
+    <!-- 眼睛单独画，不加描边 -->
+    <circle fill="#FFFFFF" cx="78" cy="55" r="5" />
+    <circle fill="#FFFFFF" cx="122" cy="55" r="5" />
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景：灰色圆角矩形 -->
+  <rect x="0" y="0" width="200" height="200" rx="45" ry="45" fill="#909090"/>
+  
+  <!-- 文字：ios (放大版) -->
+  <text x="50%" y="54%" 
+        dominant-baseline="middle" 
+        text-anchor="middle" 
+        font-family="Helvetica, Arial, sans-serif" 
+        font-weight="bold" 
+        font-size="135" 
+        letter-spacing="-6"
+        fill="#ffffff">
+    ios
+  </text>
+</svg>

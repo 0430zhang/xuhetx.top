@@ -1,0 +1,26 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- 1. 底层：Android -->
+  <g transform="translate(5, 5) scale(0.65)">
+    <path fill="#A4C639" d="M50,80 A50,50 0 0 1 150,80 Z" />
+    <line x1="72" y1="45" x2="55" y2="18" stroke="#A4C639" stroke-width="5" stroke-linecap="round" />
+    <line x1="128" y1="45" x2="145" y2="18" stroke="#A4C639" stroke-width="5" stroke-linecap="round" />
+    <circle fill="#FFFFFF" cx="78" cy="55" r="5" />
+    <circle fill="#FFFFFF" cx="122" cy="55" r="5" />
+    <path fill="#A4C639" d="M50,85 H150 V160 A12,12 0 0 1 138,172 H62 A12,12 0 0 1 50,160 Z" />
+    <rect fill="#A4C639" x="24" y="85" width="20" height="75" rx="10" ry="10" />
+    <rect fill="#A4C639" x="156" y="85" width="20" height="75" rx="10" ry="10" />
+    <rect fill="#A4C639" x="70" y="165" width="20" height="35" rx="10" ry="10" />
+    <rect fill="#A4C639" x="110" y="165" width="20" height="35" rx="10" ry="10" />
+  </g>
+
+  <!-- 2. 上层：iOS -->
+  <g transform="translate(60, 60) scale(0.7)">
+    <!-- 白色外边框 -->
+    <rect x="0" y="0" width="200" height="200" rx="45" ry="45" fill="none" stroke="white" stroke-width="15" />
+    <!-- 灰色实体 -->
+    <rect x="0" y="0" width="200" height="200" rx="45" ry="45" fill="#909090"/>
+    <text x="100" y="108" dominant-baseline="middle" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="135" letter-spacing="-6" fill="#ffffff">ios</text>
+  </g>
+
+</svg>

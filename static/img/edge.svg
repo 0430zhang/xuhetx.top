@@ -1,0 +1,16 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background: White Circle to fill the gap between segments and blue center -->
+    <circle cx="512" cy="512" r="256" fill="#ffffff"/>
+
+    <!-- Red Segment (Top) -->
+    <path fill="#db4437" d="M 68.59,256.00 A 512 512 0 0 1 955.41,256.00 L 512.00,256.00 A 256 256 0 0 0 290.30,640.00 Z"/>
+
+    <!-- Yellow Segment (Right) -->
+    <path fill="#f4b400" d="M 955.41,256.00 A 512 512 0 0 1 512.00,1024.00 L 733.70,640.00 A 256 256 0 0 0 512.00,256.00 Z"/>
+
+    <!-- Green Segment (Left) -->
+    <path fill="#0f9d58" d="M 512.00,1024.00 A 512 512 0 0 1 68.59,256.00 L 290.30,640.00 A 256 256 0 0 0 733.70,640.00 Z"/>
+
+    <!-- Blue Center Circle -->
+    <circle cx="512" cy="512" r="202" fill="#4285f4"/>
+</svg>

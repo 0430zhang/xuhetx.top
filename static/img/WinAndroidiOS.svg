@@ -1,0 +1,53 @@
+<svg width="220" height="220" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+  <!-- 
+    布局：品字形 (倒三角)
+    1. 上方居中：Windows (底层)
+    2. 左下：Android (上层，覆盖 Windows 左下角)
+    3. 右下：iOS (上层，覆盖 Windows 右下角，并与 Android 接触)
+    
+    放大比例：全部约 1.3倍 (30% up)
+  -->
+
+  <!-- 1. 上方居中：Windows (底层背景) -->
+  <!-- 
+       原始尺寸 100x100
+       放大 1.3 倍 -> 130x130
+       X位置：(220 - 130) / 2 = 45 (居中)
+       Y位置：5 (顶端)
+  -->
+  <g transform="translate(45, 5) scale(1.3)">
+    <polygon fill="#0078D7" points="0,13 47,6 47,47 0,47" />
+    <polygon fill="#0078D7" points="0,53 47,53 47,94 0,87" />
+    <polygon fill="#0078D7" points="53,5 100,0 100,47 53,47" />
+    <polygon fill="#0078D7" points="53,53 100,53 100,100 53,95" />
+  </g>
+
+  <!-- 2. 左下：Android -->
+  <!-- 
+       向上挤压，头部覆盖 Windows 的左下区域
+       向右挤压，右侧身体填补中心空隙
+  -->
+  <g transform="translate(5, 85) scale(0.65)">
+    <path fill="#A4C639" d="M50,80 A50,50 0 0 1 150,80 Z" />
+    <line x1="72" y1="45" x2="55" y2="18" stroke="#A4C639" stroke-width="5" stroke-linecap="round" />
+    <line x1="128" y1="45" x2="145" y2="18" stroke="#A4C639" stroke-width="5" stroke-linecap="round" />
+    <circle fill="#FFFFFF" cx="78" cy="55" r="5" />
+    <circle fill="#FFFFFF" cx="122" cy="55" r="5" />
+    <path fill="#A4C639" d="M50,85 H150 V160 A12,12 0 0 1 138,172 H62 A12,12 0 0 1 50,160 Z" />
+    <rect fill="#A4C639" x="24" y="85" width="20" height="75" rx="10" ry="10" />
+    <rect fill="#A4C639" x="156" y="85" width="20" height="75" rx="10" ry="10" />
+    <rect fill="#A4C639" x="70" y="165" width="20" height="35" rx="10" ry="10" />
+    <rect fill="#A4C639" x="110" y="165" width="20" height="35" rx="10" ry="10" />
+  </g>
+
+  <!-- 3. 右下：iOS -->
+  <!-- 
+       向上挤压，覆盖 Windows 的右下区域
+       向左挤压，左侧边缘与 Android 接触，确保中心无留白
+  -->
+  <g transform="translate(85, 85) scale(0.65)">
+    <rect x="0" y="0" width="200" height="200" rx="45" ry="45" fill="#909090"/>
+    <text x="100" y="108" dominant-baseline="middle" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="135" letter-spacing="-6" fill="#ffffff">ios</text>
+  </g>
+
+</svg>
