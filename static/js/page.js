@@ -362,13 +362,26 @@ function initUpdateModal() {
         }, { once: true });
     }
 
-    fetch('./static/data/announcements.json', { cache: 'no-store' })
-        .then((response) => {
+    const localAnnouncements = [{
+        id: '20250812-site-introduction',
+        date: '2025-08-12',
+        category: '',
+        title: '本站公告',
+        content: [
+            '本站致力于让大家在互联网上快速且精准的找到优质资源，而不是sb营销号。',
+            '作者已经稳定更新两年多了。喜欢的可以关注一下公众号哦。',
+        ],
+    }];
+    const announcementsRequest = window.location.protocol === 'file:'
+        ? Promise.resolve(localAnnouncements)
+        : fetch('./static/data/announcements.json', { cache: 'no-store' }).then((response) => {
             if (!response.ok) {
                 throw new Error(`Unable to load announcements: ${response.status}`);
             }
             return response.json();
-        })
+        });
+
+    announcementsRequest
         .then((data) => {
             announcements = getSortedAnnouncements(Array.isArray(data) ? data : []);
             if (!announcements.length) {
