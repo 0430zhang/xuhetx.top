@@ -52,7 +52,7 @@ function getCookie(name) {
     return null;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function initPageExtras() {
     document.querySelectorAll('.projectItem').forEach(function (button) {
         button.addEventListener('mousedown', handlePress);
         button.addEventListener('mouseup', handleRelease);
@@ -118,7 +118,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         requestAnimationFrame(step);
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPageExtras);
+} else {
+    initPageExtras();
+}
 
 function hidePageLoading() {
     var pageLoading = document.querySelector('#zyyo-loading');
