@@ -112,6 +112,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    /* 脚本加载失败时，也不能让加载遮罩永久挡住页面。 */
+    animation: dismiss-loading 0s 3s forwards;
 }
 
 
@@ -125,6 +127,13 @@ body {
     background: #472eff;
 
     animation: zoom 1s linear infinite;
+}
+
+@keyframes dismiss-loading {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
 }
 
 @keyframes zoom {

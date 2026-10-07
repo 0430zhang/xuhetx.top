@@ -120,14 +120,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-window.addEventListener('load', function () {
+function hidePageLoading() {
     var pageLoading = document.querySelector('#zyyo-loading');
     if (!pageLoading) {
         return;
     }
 
-    setTimeout(function () {
-        pageLoading.style.opacity = '0';
-        pageLoading.style.visibility = 'hidden';
-    }, 100);
-});
+    pageLoading.style.opacity = '0';
+    pageLoading.style.visibility = 'hidden';
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', hidePageLoading);
+} else {
+    hidePageLoading();
+}
