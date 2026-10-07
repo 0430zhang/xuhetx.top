@@ -482,6 +482,9 @@
                     border: 1px solid #ddd;
                     border-radius: 8px;
                 }
+                .submit-panel h3 {
+                    margin: 0 0 12px;
+                }
                 .submit-field {
                     display: block;
                     width: 100%;
@@ -494,6 +497,7 @@
                 }
                 .submit-button {
                     display: inline-block;
+                    margin-top: 12px;
                     padding: 10px 20px;
                     background: #007bff;
                     color: white;
@@ -503,7 +507,9 @@
                     text-decoration: none;
                 }
                 .submit-message {
-                    margin-top: 10px;
+                    display: block;
+                    margin: 0;
+                    line-height: 1.6;
                 }
                 .site-promo-rotator {
                     position: relative;
