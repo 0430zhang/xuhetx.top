@@ -103,6 +103,19 @@
                 <span class="menu-toggle-line"></span>
             </span>
         </button>
+        <div class="feedback-tools" aria-label="反馈工具">
+            <button id="feedbackModeButton" class="feedback-tool-button" type="button" aria-pressed="false">
+                <span aria-hidden="true">⚠</span>
+                <span>失效反馈</span>
+            </button>
+            <button id="feedbackTopButton" class="feedback-tool-button feedback-top-button" type="button" aria-label="返回顶部">
+                <span aria-hidden="true">↑</span>
+                <span>顶部</span>
+            </button>
+        </div>
+        <div id="feedbackModeNotice" class="feedback-mode-notice" hidden>
+            点击带链接的资源进行反馈，按 Esc 或再次点击按钮退出
+        </div>
         <div class="zyyo-main">
             <div class="zyyo-left">
                 <div class="left-div left-des">
@@ -5198,8 +5211,11 @@
                         <div class="subWrap is-collapsed">
                             <div class="submit-panel">
                                 <h3>游客投稿</h3>
-                                <div class="submit-message">欢迎提交资源或意见反馈：</div>
-                                <a class="submit-button" href="https://wcnm9p5hbz0u.feishu.cn/share/base/form/shrcnSBEOCrUxdXffT2T75CZUkf" target="_blank" rel="noopener noreferrer">打开飞书收集表</a>
+                                <div class="submit-message">提交新资源，或为失效资源反馈问题：</div>
+                                <div class="submit-actions">
+                                    <a class="submit-button" href="https://wcnm9p5hbz0u.feishu.cn/share/base/form/shrcnAjSujZzmuBqFhGPZErsXef" target="_blank" rel="noopener noreferrer">提交新资源或意见</a>
+                                    <button id="feedbackPanelButton" class="submit-button submit-button--secondary" type="button">反馈失效资源</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -5435,6 +5451,7 @@
                     </div>
                     <script>
 const GLOBAL_PASSWORD = '1731';
+const FEISHU_FEEDBACK_FORM_URL = 'https://wcnm9p5hbz0u.feishu.cn/share/base/form/shrcnXsv8hJY7Tz9cq2UhpX8gxh';
 
 window.toggleFolder = function toggleFolder(titleElement) {
     const folder = titleElement && titleElement.parentElement;
@@ -5477,8 +5494,66 @@ function initFolderToggles() {
 }
 
 function initLinkActions() {
+    const feedbackButton = document.getElementById('feedbackModeButton');
+    const feedbackPanelButton = document.getElementById('feedbackPanelButton');
+    const feedbackNotice = document.getElementById('feedbackModeNotice');
+    const feedbackTopButton = document.getElementById('feedbackTopButton');
+    let feedbackMode = false;
+
+    function setFeedbackMode(enabled) {
+        feedbackMode = enabled;
+        feedbackButton?.classList.toggle('is-active', enabled);
+        feedbackButton?.setAttribute('aria-pressed', String(enabled));
+        feedbackPanelButton?.classList.toggle('is-active', enabled);
+        feedbackPanelButton?.setAttribute('aria-pressed', String(enabled));
+        if (feedbackPanelButton) feedbackPanelButton.textContent = enabled ? '退出反馈选择' : '反馈失效资源';
+        if (feedbackNotice) feedbackNotice.hidden = !enabled;
+        document.documentElement.classList.toggle('feedback-mode', enabled);
+    }
+
+    function getResourceDetails(link) {
+        const title = (link.textContent || '').replace(/\s+/g, ' ').trim();
+        const path = [];
+        let folder = link.closest('.folder');
+        while (folder) {
+            const folderTitle = folder.querySelector(':scope > .title');
+            const folderName = folderTitle?.textContent.replace(/\s+/g, ' ').trim();
+            if (folderName) path.unshift(folderName);
+            folder = folder.parentElement?.closest('.folder');
+        }
+        return { title, path: path.join(' > ') };
+    }
+
+    function openFeedbackForm(link) {
+        const details = getResourceDetails(link);
+        const formUrl = new URL(FEISHU_FEEDBACK_FORM_URL);
+        formUrl.searchParams.set('prefill_失效资源名称', details.title);
+        formUrl.searchParams.set('prefill_所在目录路径', details.path);
+        formUrl.searchParams.set('prefill_资源链接', link.getAttribute('data-open-url') || link.getAttribute('data-url') || '');
+        window.open(formUrl.toString(), '_blank', 'noopener,noreferrer');
+    }
+
+    feedbackButton?.addEventListener('click', () => setFeedbackMode(!feedbackMode));
+    feedbackPanelButton?.addEventListener('click', () => setFeedbackMode(!feedbackMode));
+    feedbackTopButton?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && feedbackMode) setFeedbackMode(false);
+    });
+
     document.addEventListener('click', (event) => {
         if (!(event.target instanceof Element)) {
+            return;
+        }
+
+        const feedbackLink = event.target.closest('.subTitle.link-item');
+        if (feedbackMode && feedbackLink) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            const details = getResourceDetails(feedbackLink);
+            const confirmed = window.confirm(
+                `确认反馈以下失效资源？\n\n失效资源名称：${details.title}\n所在目录路径：${details.path || '未分类'}\n\n点击“确定”将跳转至飞书表单。`
+            );
+            if (confirmed) openFeedbackForm(feedbackLink);
             return;
         }
 
@@ -5497,7 +5572,7 @@ function initLinkActions() {
         if (targetUrl && !document.documentElement.classList.contains('update-modal-open')) {
             window.open(targetUrl, '_blank');
         }
-    });
+    }, true);
 }
 
 function initUpdateModal() {
@@ -5789,3 +5864,4 @@ setTimeout(function () {
                     </script>
                 </body>
             </html>
+
