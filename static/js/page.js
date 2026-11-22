@@ -657,32 +657,6 @@ function initScrollProgress() {
     updateScrollPosition();
 }
 
-function initDynamicViewport() {
-    const root = document.documentElement;
-    let resizeFrame = 0;
-
-    function updateViewportHeight() {
-        resizeFrame = 0;
-        const viewport = window.visualViewport;
-        // Safari changes visualViewport during normal scrolling as its address bar
-        // collapses. Only update the CSS viewport variable on actual resizes so
-        // the fixed backdrop does not visibly jump while the page is moving.
-        const height = Math.max(window.innerHeight, viewport ? viewport.height : 0);
-        root.style.setProperty('--app-viewport-height', `${Math.ceil(height)}px`);
-    }
-
-    function scheduleViewportHeightUpdate() {
-        if (!resizeFrame) {
-            resizeFrame = requestAnimationFrame(updateViewportHeight);
-        }
-    }
-
-    updateViewportHeight();
-    window.addEventListener('resize', scheduleViewportHeightUpdate, { passive: true });
-    window.addEventListener('orientationchange', scheduleViewportHeightUpdate, { passive: true });
-    window.visualViewport?.addEventListener('resize', scheduleViewportHeightUpdate, { passive: true });
-}
-
 function initFeature(name, initializer) {
     try {
         initializer();
@@ -693,7 +667,6 @@ function initFeature(name, initializer) {
 
 ready(() => {
     [
-        ['动态视口', initDynamicViewport],
         ['随机语录', initRandomQuote],
         ['广告轮播', initCarousel],
         ['资源数量', initResourceCount],
