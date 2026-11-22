@@ -659,18 +659,28 @@ function initScrollProgress() {
 
 function initDynamicViewport() {
     const root = document.documentElement;
+    let resizeFrame = 0;
 
     function updateViewportHeight() {
+        resizeFrame = 0;
         const viewport = window.visualViewport;
-        const height = Math.max(window.innerHeight, viewport ? viewport.height + viewport.offsetTop : 0);
+        // Safari changes visualViewport during normal scrolling as its address bar
+        // collapses. Only update the CSS viewport variable on actual resizes so
+        // the fixed backdrop does not visibly jump while the page is moving.
+        const height = Math.max(window.innerHeight, viewport ? viewport.height : 0);
         root.style.setProperty('--app-viewport-height', `${Math.ceil(height)}px`);
     }
 
+    function scheduleViewportHeightUpdate() {
+        if (!resizeFrame) {
+            resizeFrame = requestAnimationFrame(updateViewportHeight);
+        }
+    }
+
     updateViewportHeight();
-    window.addEventListener('resize', updateViewportHeight);
-    window.addEventListener('orientationchange', updateViewportHeight);
-    window.visualViewport?.addEventListener('resize', updateViewportHeight);
-    window.visualViewport?.addEventListener('scroll', updateViewportHeight);
+    window.addEventListener('resize', scheduleViewportHeightUpdate, { passive: true });
+    window.addEventListener('orientationchange', scheduleViewportHeightUpdate, { passive: true });
+    window.visualViewport?.addEventListener('resize', scheduleViewportHeightUpdate, { passive: true });
 }
 
 function initFeature(name, initializer) {

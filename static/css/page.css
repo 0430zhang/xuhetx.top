@@ -30,9 +30,8 @@
                 top: 0;
                 left: 0;
                 width: 100vw;
-                height: var(--app-viewport-height, 100dvh);
+                height: 100vh;
                 min-height: 100vh;
-                min-height: 100lvh;
                 z-index: -1;
                 pointer-events: none;
                 background: var(--main_bg_color);
@@ -42,6 +41,11 @@
                 backdrop-filter: none;
                 -webkit-backdrop-filter: none;
                 transform: translateZ(0);
+            }
+            @supports (height: 100dvh) {
+                .zyyo-filter {
+                    height: var(--app-viewport-height, 100dvh);
+                }
             }
             .zyyo-filter::after {
                 content: '';
@@ -55,8 +59,8 @@
 
                 #menuBtn {
                         position: fixed;
-                        top: 0;
-                        left: 0;
+                        top: max(0px, env(safe-area-inset-top, 0px));
+                        left: max(0px, env(safe-area-inset-left, 0px));
                         width: 48px;
                         height: 48px;
                         z-index: 1001;
@@ -143,8 +147,8 @@
             /* 搜索按钮样式 - 更简约的设计 */
                 #searchBtn {
                     position: fixed;
-                    top: 12px;
-                    right: 12px;
+                    top: max(12px, calc(env(safe-area-inset-top, 0px) + 8px));
+                    right: max(12px, calc(env(safe-area-inset-right, 0px) + 8px));
                     z-index: 1001;
                     font-size: 28px;
                     line-height: 1;
@@ -390,9 +394,20 @@
                     font-size: 16px;
                     margin-bottom: 22px;
                 }
+                .folder {
+                    min-width: 0;
+                    max-width: 100%;
+                }
+                .folder > .title {
+                    min-width: 0;
+                    max-width: 100%;
+                    overflow-wrap: anywhere;
+                    word-break: normal;
+                }
                 .folder-icon {
                     vertical-align: -0.15em;
                     margin-right: 0.2em;
+                    flex: 0 0 auto;
                 }
                 .resource-list {
                     display: flex;
@@ -566,6 +581,16 @@
                     flex-direction: column;
                     gap: 8px;
                 }
+                #feedbackTools {
+                    position: fixed;
+                    z-index: 1100;
+                    inset: auto max(12px, calc(env(safe-area-inset-right, 0px) + 12px)) max(20px, calc(env(safe-area-inset-bottom, 0px) + 16px)) auto;
+                    display: flex;
+                    width: max-content;
+                    flex-direction: column;
+                    align-items: stretch;
+                    pointer-events: none;
+                }
                 .feedback-tool-button {
                     display: flex;
                     width: 72px;
@@ -585,6 +610,11 @@
                     line-height: 1.2;
                     box-shadow: 0 5px 16px rgba(0, 0, 0, 0.26);
                     transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+                    appearance: none;
+                    -webkit-appearance: none;
+                    touch-action: manipulation;
+                    white-space: normal;
+                    pointer-events: auto;
                 }
                 .feedback-tool-button:hover,
                 .feedback-tool-button:focus-visible {
@@ -619,6 +649,27 @@
                     cursor: crosshair;
                 }
                 @media (max-width: 520px) {
+                    body {
+                        /* iOS can repaint fixed backgrounds on every scroll tick. */
+                        background-attachment: scroll;
+                    }
+
+                    .zyyo-filter {
+                        transform: none;
+                    }
+
+                    #menuBtn {
+                        top: max(6px, env(safe-area-inset-top, 0px));
+                        left: max(6px, env(safe-area-inset-left, 0px));
+                    }
+                    #searchBtn {
+                        top: max(12px, calc(env(safe-area-inset-top, 0px) + 8px));
+                        right: max(12px, calc(env(safe-area-inset-right, 0px) + 8px));
+                    }
+                    .folder > .title {
+                        width: 100%;
+                        line-height: 1.24;
+                    }
                     .submit-panel {
                         margin: 14px 10px;
                         padding: 16px;
@@ -641,6 +692,12 @@
                     .feedback-tools {
                         right: max(10px, env(safe-area-inset-right));
                         bottom: max(16px, calc(env(safe-area-inset-bottom) + 10px));
+                    }
+                    #feedbackTools {
+                        top: auto;
+                        left: auto;
+                        right: max(10px, calc(env(safe-area-inset-right, 0px) + 10px));
+                        bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 10px));
                     }
                     .feedback-tool-button {
                         width: 66px;
