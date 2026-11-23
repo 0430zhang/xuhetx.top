@@ -143,14 +143,52 @@ function initResourceCount() {
 }
 
 function initRecentUpdates() {
+    const todayParts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Shanghai',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+    }).formatToParts(new Date()).reduce((parts, part) => {
+        if (part.type !== 'literal') {
+            parts[part.type] = part.value;
+        }
+        return parts;
+    }, {});
+    const today = Date.UTC(Number(todayParts.year), Number(todayParts.month) - 1, Number(todayParts.day));
+
+    const markRecent = (item) => {
+        item.classList.add('is-recently-updated');
+        let folder = item.closest('.folder');
+        while (folder) {
+            folder.querySelector(':scope > .title')?.classList.add('is-recently-updated');
+            folder = folder.parentElement?.closest('.folder');
+        }
+    };
+
+    const isRecentDate = (value) => {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(value || '')) {
+            return false;
+        }
+        const [year, month, day] = value.split('-').map(Number);
+        const timestamp = Date.UTC(year, month - 1, day);
+        const ageInDays = (today - timestamp) / 86400000;
+        return Number.isFinite(timestamp) && ageInDays >= 0 && ageInDays <= 10;
+    };
+
+    const recentItems = document.querySelectorAll('.link-item');
+    recentItems.forEach((item) => {
+        const addedDate = item.getAttribute('data-added-date')
+            || (item.getAttribute('title') || '').match(/添加时间：(?:(\d{4}-\d{2}-\d{2}))/)?.[1]
+            || '';
+        if (isRecentDate(addedDate)) {
+            markRecent(item);
+        }
+    });
+
     fetch('./static/data/recent-updates.json', { cache: 'no-store' })
         .then((response) => response.ok ? response.json() : null)
         .then((data) => {
             const items = Array.isArray(data?.items) ? data.items : [];
-            if (items.length === 0) {
-                return;
-            }
-
             const recentKeys = new Set(items.map((item) => {
                 return `${String(item.title || '').trim()}\u0000${String(item.url || '').trim()}`;
             }));
@@ -158,15 +196,8 @@ function initRecentUpdates() {
             document.querySelectorAll('.link-item[data-open-url]').forEach((item) => {
                 const url = item.getAttribute('data-open-url') || '';
                 const title = (item.textContent || '').trim().replace(/\s+/g, ' ');
-                if (!recentKeys.has(`${title}\u0000${url.trim()}`)) {
-                    return;
-                }
-
-                item.classList.add('is-recently-updated');
-                let folder = item.closest('.folder');
-                while (folder) {
-                    folder.querySelector(':scope > .title')?.classList.add('is-recently-updated');
-                    folder = folder.parentElement?.closest('.folder');
+                if (recentKeys.has(`${title}\u0000${url.trim()}`)) {
+                    markRecent(item);
                 }
             });
         })
